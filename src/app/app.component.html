@@ -1,0 +1,141 @@
+<form [formGroup]="profileForm" class="form-group text-right" (ngSubmit)="onSubmit()">
+
+    <nav i18n-dir dir="rtl" class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+        <div class="container">
+            <a href="/" class="navbar-brand">משלוחים</a>
+
+        </div>
+    </nav>
+
+    <div i18n-dir dir="rtl" class="container">
+        <h3>משלוחים</h3>
+        <div class="row">
+            <div class="col-sm-6 col-12">
+                <div class="form-group">
+                    <label>שם המזמין <span class="req">*</span></label>
+                    <input type="text" class="form-control text-right" formControlName="contactManName" required tabindex="1">
+
+                </div>
+            </div>
+            <div class="col-sm-6 col-12">
+                <div class="form-group">
+                    <label>
+                    מקור משלוח <span class="req">*</span>
+                </label>
+                    <select class="form-control" id="CustomerID" formControlName="CustomerID" (change)="onDeliverySourceChange($event)" tabindex="2">
+                     <option *ngFor="let deliveryCode of deliveryCodes" value={{deliveryCode.id}}>{{deliveryCode.name}}</option>
+                   </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div i18n-dir dir="rtl" class="container mt-4">
+        <div class="card border-secondary">
+            <div class="card-header">
+                <h4>כתובת מקור</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6 col-12">
+                        <div class="form-group">
+                            <label>חברה </label>
+                            <input type="text" class="form-control form-control-sm" formControlName="companyNameLet" readonly>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <div class="form-group">
+                            <label>רחוב</label>
+                            <input type="text" class="form-control form-control-sm" formControlName="streetOut" readonly>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <div class="form-group">
+                            <label> בית</label>
+                            <input type="text" class="form-control form-control-sm" formControlName="streetNumOut" readonly>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <div class="form-group">
+                            <label>עיר</label>
+                            <input type="text" class="form-control form-control-sm" formControlName="cityOut" readonly>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div i18n-dir dir="rtl" class="container mt-4">
+        <div class="card border-primary">
+            <div class="card-header">
+                <h4>כתובת יעד</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="companyNameGet" placeholder="חברה *" tabindex="3">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <!-- <input type="text" class="form-control" formControlName="cityDes" placeholder="עיר *" tabindex="4"> -->
+                            <ng-select #selectCity [items]="cities" formControlName="cityDes" (focus)="onCityFocus()" (change)="onSelectCity()" placeholder="עיר *" tabindex="4" class="custom"></ng-select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <!-- <input type="text" class="form-control" formControlName="streetDes" placeholder="רחוב *" tabindex="5"> -->
+                            <ng-select #selectStreet [items]="streetsInCity" formControlName="streetDes" (focus)="onStreetFocus()" (change)="onSelectStreet()" placeholder="רחוב *" tabindex="5" class="custom"></ng-select>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="streetNumDes" placeholder="מספר בית" tabindex="6">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="KnisaDes" placeholder="כניסה" tabindex="7">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" formControlName="KomaDes" placeholder="קומה" tabindex="8">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div i18n-dir dir="rtl" class="container mt-4">
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-primary text-right" [disabled]="!profileForm.valid" tabindex="9">שמור</button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+</form>
+
+<hr>
+
+
+<p>
+    Form Value: {{ profileForm.value | json }}
+</p>
+
+
+<p>
+    Form Status: {{ profileForm.status }}
+</p>

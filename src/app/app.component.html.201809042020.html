@@ -1,0 +1,125 @@
+<div i18n-dir dir="rtl">
+  <!-- The rest of the content -->
+
+  <h1 align="right" dir="rtl">משלוחים</h1>
+  <form [formGroup]="profileForm" class="form-group text-right" (ngSubmit)="onSubmit()">
+    <div>
+    <label>
+      שם המזמין:*
+      <input type="text" class="form-control text-right" formControlName="contactManName" required>
+    </label>
+    </div>
+    <label>
+       מקור משלוח:
+      <select
+              id="CustomerID"
+              formControlName="CustomerID"
+              (change)="onDeliverySourceChange($event)"
+      >
+        <option *ngFor="let deliveryCode of deliveryCodes" value={{deliveryCode.id}}>{{deliveryCode.name}}</option>
+      </select>
+    </label>
+
+    <h3>תובת מקור</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2">
+          <label>
+            חברה:
+            <input type="text" class="form-control-plaintext" formControlName="companyNameLet" readonly>
+          </label>
+        </div>
+        <div class="col-lg-2">
+          <label>
+            רחוב:
+            <input type="text" class="form-control-plaintext" formControlName="streetOut" readonly>
+          </label>
+        </div>
+        <div class="col-lg-2">
+          <label>
+            מספר בית:
+            <input type="text" class="form-control-plaintext" formControlName="streetNumOut" readonly>
+          </label>
+        </div>
+        <div class="col-lg-2">
+          <label>
+            עיר:
+            <input type="text" class="form-control-plaintext" formControlName="cityOut" readonly>
+          </label>
+        </div>
+      </div>
+    </div>
+    <h3 align="right">כתובת יעד</h3>
+
+    <div class="container-fluid" >
+      <div class="row">
+        <div class="col">
+          <label>
+            חברה:
+            <input
+              type="text"
+              formControlName="companyNameGet"
+            >
+          </label>
+        </div>
+        <div class="col">
+          <label>
+            עיר:*
+          <input
+              type="text"
+              formControlName="cityDes"
+            >
+          </label>
+          </div>
+        <div class="col">
+          <label>
+            רחוב:*
+            <input
+              type="text"
+              formControlName="streetDes"
+            >
+          </label>
+        </div>
+        <div class="col">
+          <label>
+            מספר בית:*
+            <input type="text" formControlName="streetNumDes">
+          </label>
+        </div>
+        <div class="col">
+          <label>
+            כניסה:
+            <input type="text" formControlName="KnisaDes">
+          </label>
+        </div>
+        <div class="col">
+          <label>
+            דירה:
+            <input type="text" formControlName="DiraDes">
+          </label>
+        </div>
+        <div class="col">
+          <label>
+            קומה:
+            <input type="text" formControlName="KomaDes">
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit"  class="btn btn-primary text-right" [disabled]="!profileForm.valid">שמור</button>
+  </form>
+
+  <hr>
+
+
+  <p>
+    Form Value: {{ profileForm.value | json }}
+  </p>
+
+
+  <p>
+    Form Status: {{ profileForm.status }}
+  </p>
+
+</div>
