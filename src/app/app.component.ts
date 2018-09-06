@@ -83,20 +83,19 @@ export class AppComponent implements OnInit {
       this.profileForm.get('vehicleTypeId').setValue(this.deliverySource[selectedID].vehicleTypeId);
     } else {
       this.profileForm.get('streetDes').setValue("");
-
     }
 
   }
 
-  onSelectCity(){
+  onSelectCity() {
     let city = this.profileForm.get('cityDes').value;
     this.streetsInCity = this.streets[city];
   }
-  onSelectStreet(){
+  onSelectStreet() {
     let street = this.profileForm.get('streetDes').value;
   }
 
-  onCityFocus(){
+  onCityFocus() {
     this.selectCity.open();
   }
   onStreetFocus(){

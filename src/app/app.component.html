@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label>
                     מקור משלוח <span class="req">*</span>
-                </label>
+                    </label>
                     <select class="form-control" id="CustomerID" formControlName="CustomerID" (change)="onDeliverySourceChange($event)" tabindex="2">
                      <option *ngFor="let deliveryCode of deliveryCodes" value={{deliveryCode.id}}>{{deliveryCode.name}}</option>
                    </select>
@@ -90,7 +90,7 @@
                     <div class="col-md-4 col-sm-6 col-12">
                         <div class="form-group">
                             <!-- <input type="text" class="form-control" formControlName="streetDes" placeholder="רחוב *" tabindex="5"> -->
-                            <ng-select #selectStreet [items]="streetsInCity" formControlName="streetDes" (focus)="onStreetFocus()" (change)="onSelectStreet()" placeholder="רחוב *" tabindex="5" class="custom"></ng-select>
+                            <ng-select [items]="streetsInCity" formControlName="streetDes" (change)="selectStreet()" placeholder="רחוב *" tabindex="5" class="custom"></ng-select>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-12">
