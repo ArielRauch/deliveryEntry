@@ -78,20 +78,18 @@ export class AppComponent implements OnInit {
     const selectedID = (<HTMLInputElement>event.target).value;
     if (selectedID in this.deliverySource) {
 
-      this.profileForm.get('companyNameLet').setValue(this.deliverySource[selectedID].branch);
-      this.profileForm.get('streetOut').setValue(this.deliverySource[selectedID].street);
-      this.profileForm.get('streetNumOut').setValue(this.deliverySource[selectedID].houseNo);
-      this.profileForm.get('cityOut').setValue(this.deliverySource[selectedID].city);
-      this.profileForm.get('vehicleTypeId').setValue(this.deliverySource[selectedID].vehicleTypeId);
-      this.sourceAddress = this.deliverySource[selectedID].branch + 
-          ', ' + this.deliverySource[selectedID].street +
-          ' ' + this.deliverySource[selectedID].houseNo +
-          ', ' + this.deliverySource[selectedID].city;
+      let source = this.deliverySource[selectedID];
+      this.profileForm.get('companyNameLet').setValue(source.branch);
+      this.profileForm.get('streetOut').setValue(source.street);
+      this.profileForm.get('streetNumOut').setValue(source.houseNo);
+      this.profileForm.get('cityOut').setValue(source.city);
+      this.profileForm.get('vehicleTypeId').setValue(source.vehicleTypeId);
+      this.sourceAddress = `${source.branch}, ${source.street} ${source.houseNo}, ${source.city}`;
           
     } else {
       this.profileForm.get('streetDes').setValue("");
+      this.sourceAddress = null;
     }
-
   }
 
   onSelectCity() {
