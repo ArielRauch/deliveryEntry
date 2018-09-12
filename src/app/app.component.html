@@ -9,14 +9,14 @@
     <div i18n-dir dir="rtl" class="container">
         <h3>משלוחים</h3>
         <div class="row">
-            <div class="col-sm-6 col-12">
+            <div class="col-12">
                 <div class="form-group">
                     <label>שם המזמין <span class="req">*</span></label>
                     <input type="text" class="form-control text-right" formControlName="contactManName" required tabindex="1">
 
                 </div>
             </div>
-            <div class="col-sm-6 col-12">
+            <div class="col-12">
                 <div class="form-group">
                     <label>
                     מקור משלוח <span class="req">*</span>
@@ -24,11 +24,13 @@
                     <select class="form-control" id="CustomerID" formControlName="CustomerID" (change)="onDeliverySourceChange($event)" tabindex="2">
                      <option *ngFor="let deliveryCode of deliveryCodes" value={{deliveryCode.id}}>{{deliveryCode.name}}</option>
                    </select>
+                    <span class="source-address" *ngIf="sourceAddress"><span>כתובת מקור: </span> <span style="font-style: italic;">{{sourceAddress}}</span></span>
+
                 </div>
             </div>
         </div>
     </div>
-    <div i18n-dir dir="rtl" class="container mt-4">
+    <!-- <div i18n-dir dir="rtl" class="container mt-4">
         <div class="card border-secondary">
             <div class="card-header">
                 <h4>כתובת מקור</h4>
@@ -66,43 +68,43 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div i18n-dir dir="rtl" class="container mt-4">
-        <div class="card border-primary">
+        <div class="card border-secondary">
             <div class="card-header">
                 <h4>כתובת יעד</h4>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-4 col-sm-6 col-12">
+                    <div class="col-sm-6 col-12">
                         <div class="form-group">
                             <input type="text" class="form-control" formControlName="companyNameGet" placeholder="חברה *" tabindex="3">
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6 col-12">
+                    <div class="col-sm-6 col-12">
                         <div class="form-group">
                             <!-- <input type="text" class="form-control" formControlName="cityDes" placeholder="עיר *" tabindex="4"> -->
                             <ng-select #selectCity [items]="cities" formControlName="cityDes" (focus)="onCityFocus()" (change)="onSelectCity()" placeholder="עיר *" tabindex="4" class="custom"></ng-select>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6 col-12">
+                    <div class="col-sm-6 col-12">
                         <div class="form-group">
                             <!-- <input type="text" class="form-control" formControlName="streetDes" placeholder="רחוב *" tabindex="5"> -->
                             <ng-select [items]="streetsInCity" formControlName="streetDes" (change)="selectStreet()" placeholder="רחוב *" tabindex="5" class="custom"></ng-select>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6 col-12">
+                    <div class="col-sm-6 col-12">
                         <div class="form-group">
                             <input type="text" class="form-control" formControlName="streetNumDes" placeholder="מספר בית" tabindex="6">
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6 col-12">
+                    <div class="col-sm-6 col-12">
                         <div class="form-group">
                             <input type="text" class="form-control" formControlName="KnisaDes" placeholder="כניסה" tabindex="7">
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-6 col-12">
+                    <div class="col-sm-6 col-12">
                         <div class="form-group">
                             <input type="text" class="form-control" formControlName="KomaDes" placeholder="קומה" tabindex="8">
                         </div>

@@ -16,31 +16,6 @@
     border-color: #ccc;
 }
 
-
-/* .ng-select.custom .ng-control {
-    min-height: 0px;
-    border-radius: 0;
-    background-color: white;
-} */
-
-
-/* ng-select .ng-option {
-    min-height: 0px;
-    border-radius: 0;
-    background-color: white;
-}
-
-.ng-select-dropdown-outer .ng-select-dropdown .ng-option {
-    background-color: white;
-    color: #fff;
-}
-
-.ng-select-dropdown-outer .ng-select-dropdown .ng-option.marked {
-    background-color: white;
-    ;
-    color: #fff;
-} */
-
 .custom ng-template {
     background-color: white;
 }
@@ -51,4 +26,12 @@ body {
 
 span.req {
     color: red;
+}
+
+.source-address {
+    background-color: #f7f7f7;
+    border-color: #ccc 1px solid;
+    display: inline-block;
+    padding: 4px;
+    width: 100%;
 }
