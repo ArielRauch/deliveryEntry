@@ -6,24 +6,25 @@
 
         </div>
     </nav>
+
     <div i18n-dir dir="rtl" class="container">
         <h3>משלוחים</h3>
         <div class="row">
-            <div class="col-6">
+            <div class="col-sm-6 col-12">
                 <div class="form-group">
                     <label>שם המזמין <span class="req">*</span></label>
                     <input type="text" class="form-control text-right" formControlName="contactManName" required tabindex="1">
 
                 </div>
             </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label>מספר תעודה </label>
-              <input type="text" class="form-control text-right" formControlName="customerDeliveryNum"  tabindex="1">
+            <div class="col-sm-6 col-12">
+                <div class="form-group">
+                    <label>מספר תעודה </label>
+                    <input type="text" class="form-control text-right" formControlName="customerDeliveryNum" tabindex="1">
 
+                </div>
             </div>
-          </div>
-          <div class="col-12">
+            <div class="col-12">
                 <div class="form-group">
                     <label>
                     מקור משלוח <span class="req">*</span>
@@ -38,45 +39,6 @@
 
         </div>
     </div>
-    <!-- <div i18n-dir dir="rtl" class="container mt-4">
-        <div class="card border-secondary">
-            <div class="card-header">
-                <h4>כתובת מקור</h4>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-6 col-12">
-                        <div class="form-group">
-                            <label>חברה </label>
-                            <input type="text" class="form-control form-control-sm" formControlName="companyNameLet" readonly>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-12">
-                        <div class="form-group">
-                            <label>רחוב</label>
-                            <input type="text" class="form-control form-control-sm" formControlName="streetOut" readonly>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-12">
-                        <div class="form-group">
-                            <label> בית</label>
-                            <input type="text" class="form-control form-control-sm" formControlName="streetNumOut" readonly>
-
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-12">
-                        <div class="form-group">
-                            <label>עיר</label>
-                            <input type="text" class="form-control form-control-sm" formControlName="cityOut" readonly>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
     <div i18n-dir dir="rtl" class="container mt-4">
         <div class="card border-secondary">
@@ -92,13 +54,11 @@
                     </div>
                     <div class="col-sm-6 col-12">
                         <div class="form-group">
-                            <!-- <input type="text" class="form-control" formControlName="cityDes" placeholder="עיר *" tabindex="4"> -->
                             <ng-select #selectCity [items]="cities" formControlName="cityDes" (focus)="onCityFocus()" (change)="onSelectCity()" placeholder="עיר *" tabindex="4" class="custom"></ng-select>
                         </div>
                     </div>
                     <div class="col-sm-6 col-12">
                         <div class="form-group">
-                            <!-- <input type="text" class="form-control" formControlName="streetDes" placeholder="רחוב *" tabindex="5"> -->
                             <ng-select #selectStreet [items]="streetsInCity" formControlName="streetDes" (focus)="onStreetFocus()" (change)="onSelectStreet()" placeholder="רחוב *" tabindex="5" class="custom"></ng-select>
                         </div>
                     </div>
@@ -117,23 +77,30 @@
                             <input type="text" class="form-control" formControlName="KomaDes" placeholder="קומה" tabindex="8">
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+
     <div i18n-dir dir="rtl" class="container mt-4">
         <div class="row">
-            <div class="col">
-                <button type="submit" class="btn btn-primary text-right" [disabled]="!profileForm.valid" tabindex="9">שמור</button>
+            <div class="col-12">
+                <div class="form-group">
+                    <label>הארות </label>
+                    <textarea rows="4" class="form-control" tabindex="9"></textarea>
+                </div>
             </div>
         </div>
     </div>
 
-
-
-
-
-
+    <div i18n-dir dir="rtl" class="container">
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary text-right" [disabled]="!profileForm.valid" tabindex="10">שמור</button>
+            </div>
+        </div>
+    </div>
 
 </form>
 
