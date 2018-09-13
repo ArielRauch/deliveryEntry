@@ -16,9 +16,8 @@ import * as cities from "../data/cities.json"
 export class AppComponent implements OnInit {
   profileForm = this.fb.group({
     contactManName: ['', Validators.required],
-    // deliveryCode: [''],
-    // deliveryType: [''],
     CustomerID: [''],
+    customerDeliveryNum: [''],
     companyNameLet: [''],
       streetOut: ['', Validators.required],
       streetNumOut: ['', Validators.required],
@@ -111,8 +110,5 @@ export class AppComponent implements OnInit {
     this.deliverySource = deliverySource.default;
     this.streets = streets.default;
     this.cities = cities.default;
-    // this.iprintHUB.getDeliveryCodes().subscribe((codes) => {
-    //     this.deliveryCodes = <{ 'id': number; 'name': string; }[]>codes;
-    // });
   }
 }

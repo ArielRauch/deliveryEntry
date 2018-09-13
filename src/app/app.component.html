@@ -9,14 +9,21 @@
     <div i18n-dir dir="rtl" class="container">
         <h3>משלוחים</h3>
         <div class="row">
-            <div class="col-12">
+            <div class="col-6">
                 <div class="form-group">
                     <label>שם המזמין <span class="req">*</span></label>
                     <input type="text" class="form-control text-right" formControlName="contactManName" required tabindex="1">
 
                 </div>
             </div>
-            <div class="col-12">
+          <div class="col-6">
+            <div class="form-group">
+              <label>מספר תעודה </label>
+              <input type="text" class="form-control text-right" formControlName="customerDeliveryNum"  tabindex="1">
+
+            </div>
+          </div>
+          <div class="col-12">
                 <div class="form-group">
                     <label>
                     מקור משלוח <span class="req">*</span>
@@ -28,6 +35,7 @@
 
                 </div>
             </div>
+
         </div>
     </div>
     <!-- <div i18n-dir dir="rtl" class="container mt-4">
@@ -91,7 +99,7 @@
                     <div class="col-sm-6 col-12">
                         <div class="form-group">
                             <!-- <input type="text" class="form-control" formControlName="streetDes" placeholder="רחוב *" tabindex="5"> -->
-                            <ng-select [items]="streetsInCity" formControlName="streetDes" (change)="selectStreet()" placeholder="רחוב *" tabindex="5" class="custom"></ng-select>
+                            <ng-select #selectStreet [items]="streetsInCity" formControlName="streetDes" (focus)="onStreetFocus()" (change)="onSelectStreet()" placeholder="רחוב *" tabindex="5" class="custom"></ng-select>
                         </div>
                     </div>
                     <div class="col-sm-6 col-12">
