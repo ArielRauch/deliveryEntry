@@ -32,7 +32,8 @@ export class AppComponent implements OnInit {
       DiraDes: [''],
       KomaDes: [''],
       cityDes: [],
-   vehicleTypeId: ['']
+   vehicleTypeId: [''],
+    comments:['']
 
   });
 
@@ -85,7 +86,8 @@ export class AppComponent implements OnInit {
             DiraDes: '',
             KomaDes: '',
             cityDes: '',
-            vehicleTypeId: ''
+            vehicleTypeId: '',
+            comments: ''
 
           });
         },
