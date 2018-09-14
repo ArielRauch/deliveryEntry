@@ -33,7 +33,6 @@ export class AppComponent implements OnInit {
       KomaDes: [''],
       cityDes: [],
    vehicleTypeId: ['']
-
   });
 
   vehicleTypes = [
