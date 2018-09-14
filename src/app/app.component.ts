@@ -88,12 +88,12 @@ export class AppComponent implements OnInit {
             KomaOut:'',
             cityOut: '',
             companyNameGet: '',
-            streetDes: '',
+            streetDes: null,
             streetNumDes: '',
             KnisaDes: '',
             DiraDes: '',
             KomaDes: '',
-            cityDes: '',
+            cityDes: null,
             vehicleTypeId: '',
             comments: ''
 
