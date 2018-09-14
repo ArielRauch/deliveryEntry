@@ -32,7 +32,9 @@ export class AppComponent implements OnInit {
       DiraDes: [''],
       KomaDes: [''],
       cityDes: [],
-   vehicleTypeId: ['']
+   vehicleTypeId: [''],
+    comments:['']
+
   });
 
   vehicleTypes = [
@@ -66,7 +68,28 @@ export class AppComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log("New Delivery with  deliveryNumber " +  response["DeliveryNum"] + " inserted");
-          this.profileForm.reset();
+          this.sourceAddress = "";
+          this.profileForm.reset({
+            contactManName: '',
+            CustomerID: '',
+            customerDeliveryNum: '',
+            companyNameLet: '',
+            streetOut: '',
+            streetNumOut: '',
+            DiraOut: '',
+            KomaOut:'',
+            cityOut: '',
+            companyNameGet: '',
+            streetDes: '',
+            streetNumDes: '',
+            KnisaDes: '',
+            DiraDes: '',
+            KomaDes: '',
+            cityDes: '',
+            vehicleTypeId: '',
+            comments: ''
+
+          });
         },
         (error) => console.log(error)
       );
