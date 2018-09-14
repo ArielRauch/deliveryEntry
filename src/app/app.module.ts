@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { iprintHUBService } from './iprintHUB.service';
+import { NotifierModule } from 'angular-notifier';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,16 @@ import { iprintHUBService } from './iprintHUB.service';
     NgSelectModule,
     // other imports ...
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NotifierModule.withConfig({
+      position: {
+        horizontal: { position: 'middle' },
+        vertical: { position: 'top', distance: 80, gap: 10 }
+      },
+      behaviour:{
+        autoHide: 5000
+      }
+    })
   ],
   providers: [iprintHUBService],
   bootstrap: [AppComponent]

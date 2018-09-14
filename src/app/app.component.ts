@@ -3,6 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import {iprintHUBService} from "./iprintHUB.service";
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { NotifierService } from 'angular-notifier';
+
 import * as deliveryCodes from "../data/deliveryCodes.json"
 import * as deliverySource from "../data/deliverySource.json"
 import * as streets from "../data/streets.json"
@@ -52,11 +54,14 @@ export class AppComponent implements OnInit {
   streetsInCity:any = [];
   sourceAddress:string = null;
 
+  readonly notifier: NotifierService;
+
   @ViewChild('selectCity') selectCity: NgSelectComponent;
   @ViewChild('selectStreet') selectStreet: NgSelectComponent;
 
-  constructor(private fb: FormBuilder, private iprintHUB: iprintHUBService) {
+  constructor(private fb: FormBuilder, private iprintHUB: iprintHUBService, notifierService: NotifierService ) {
     this.profileForm.patchValue({deliveryCode: 6469});
+    this.notifier = notifierService;
 
   }
 
@@ -64,10 +69,13 @@ export class AppComponent implements OnInit {
     // TODO: Use EventEmitter with form value
 
     console.log("Saving Delivery ...");
+    
     this.iprintHUB.saveDelivery(this.profileForm.value)
       .subscribe(
         (response) => {
-          console.log("New Delivery with  deliveryNumber " +  response["DeliveryNum"] + " inserted");
+          let deliveryNum = response["DeliveryNum"];
+          this.notifier.notify( 'success', `המשלוח ${deliveryNum} נשמר בהצלחה` );
+          console.log(`New Delivery with  deliveryNumber ${deliveryNum} inserted`);
           this.sourceAddress = "";
           this.profileForm.reset({
             contactManName: '',
@@ -91,7 +99,10 @@ export class AppComponent implements OnInit {
 
           });
         },
-        (error) => console.log(error)
+        (error) => {
+          this.notifier.notify( 'error', "ארע שגיעה בלתי צפויה! הנתונים לא נשמרו" );
+          console.log(error);
+        }
       );
   }
   onDeliverySourceChange (event: Event) {
