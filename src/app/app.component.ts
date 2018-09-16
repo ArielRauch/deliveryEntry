@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     contactManName: ['', Validators.required],
     CustomerID: [''],
     customerDeliveryNum: [''],
-    contactPhone: [''],
+    PhoneDes: [''],
     companyNameLet: [''],
       streetOut: ['', Validators.required],
       streetNumOut: ['', Validators.required],
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
       KomaDes: [''],
       cityDes: [],
    vehicleTypeId: [''],
-    comments:['']
+    comment2:['']
 
   });
 
@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
             contactManName: '',
             CustomerID: '',
             customerDeliveryNum: '',
-            contactPhone: '',
+            PhoneDes: '',
             companyNameLet: '',
             streetOut: '',
             streetNumOut: '',
@@ -97,7 +97,7 @@ export class AppComponent implements OnInit {
             KomaDes: '',
             cityDes: null,
             vehicleTypeId: '',
-            comments: ''
+            comment2: ''
 
           });
         },

@@ -19,8 +19,8 @@
             </div>
           <div class="col-sm-4 col-12">
             <div class="form-group">
-              <label>מספר מזמין </label>
-              <input type="text" class="form-control text-right" formControlName="contactPhone" tabindex="1">
+              <label>טלפון המזמין </label>
+              <input type="text" class="form-control text-right" formControlName="PhoneDes" tabindex="1">
 
             </div>
           </div>
@@ -69,12 +69,12 @@
                             <ng-select #selectStreet [items]="streetsInCity" formControlName="streetDes" (focus)="onStreetFocus()" (change)="onSelectStreet()" placeholder="רחוב *" tabindex="5" class="custom"></ng-select>
                         </div>
                     </div>
-                    <div class="col-sm-6 col-12">
+                    <div class="col-sm-3 col-12">
                         <div class="form-group">
                             <input type="text" class="form-control" formControlName="streetNumDes" placeholder="מספר בית" tabindex="6">
                         </div>
                     </div>
-                    <div class="col-sm-6 col-12">
+                    <div class="col-sm-3 col-12">
                         <div class="form-group">
                             <input type="text" class="form-control" formControlName="KnisaDes" placeholder="כניסה" tabindex="7">
                         </div>
@@ -89,7 +89,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <label>הערות </label>
-                    <textarea rows="4" class="form-control" formControlName="comments" tabindex="9"></textarea>
+                    <textarea rows="4" class="form-control" formControlName="comment2" tabindex="9"></textarea>
                 </div>
             </div>
         </div>
