@@ -1,14 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import {iprintHUBService} from "./iprintHUB.service";
+import { iprintHUBService } from "./iprintHUB.service";
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { NotifierService } from 'angular-notifier';
 
-import * as deliveryCodes from "../data/deliveryCodes.json"
-import * as deliverySource from "../data/deliverySource.json"
+import * as sourceNames from "../data/sourceNames.json"
+import * as sourceAddresses from "../data/sourceAddresses.json"
 import * as streets from "../data/streets.json"
 import * as cities from "../data/cities.json"
+
 
 @Component({
   selector: 'app-root',
@@ -17,132 +18,141 @@ import * as cities from "../data/cities.json"
 })
 export class AppComponent implements OnInit {
   profileForm = this.fb.group({
-    contactManName: ['', Validators.required],
-    CustomerID: [''],
-    customerDeliveryNum: [''],
-    PhoneDes: [''],
-    companyNameLet: [''],
-      streetOut: ['', Validators.required],
-      streetNumOut: ['', Validators.required],
-      KnisaOut: [''],
-      DiraOut: [''],
-      KomaOut: [''],
-      cityOut: ['', Validators.required],
-    companyNameGet: [''],
-      streetDes: [],
-      streetNumDes: [''],
-      KnisaDes: [''],
-      DiraDes: [''],
-      KomaDes: [''],
-      cityDes: [],
-   vehicleTypeId: [''],
-    comment2:['']
-
+    contact: ['', Validators.required],
+    deliveryNum: '',
+    phone: '',
+    comments: '',
+    sourceId: null,
+    sourceAddress: null,
+    destinations: this.fb.array([this.createDestination()])
   });
 
-  vehicleTypes = [
-    {'id': 1, 'name': 'משלוח ללקוח'},
-    {'id': 1, 'name': 'איסוף על ידי הלקוח'},
-    {'id': 1, 'name': 'דואר שליחים'},
-    {'id': 1, 'name': 'דואר רשום'},
-    {'id': 1, 'name': 'איסוף מהלקוח\\ספק'}
-  ];
+  sourceNames: any = null;
+  sourceAddresses: any = null;
+  streets: any = null;
+  cities: any = null;
+  sourceAddressStr: string = null;
 
-  deliveryCodes:any = null;
-  deliverySource:any = null;
-  streets:any = null;
-  cities:any = null;
-  streetsInCity:any = [];
-  sourceAddress:string = null;
+  streetsInCities = [[]];
 
   readonly notifier: NotifierService;
 
-  @ViewChild('selectCity') selectCity: NgSelectComponent;
-  @ViewChild('selectStreet') selectStreet: NgSelectComponent;
+  @ViewChildren('selectCity') selectCity;
+  @ViewChildren('selectStreet') selectStreet;
 
-  constructor(private fb: FormBuilder, private iprintHUB: iprintHUBService, notifierService: NotifierService ) {
-    this.profileForm.patchValue({deliveryCode: 6469});
+  constructor(private fb: FormBuilder, private iprintHUB: iprintHUBService, notifierService: NotifierService) {
+    this.profileForm.patchValue({ deliveryCode: 6469 });
     this.notifier = notifierService;
 
+  }
+
+  createDestination(): FormGroup {
+    return this.fb.group({
+      name: '',
+      city: null,
+      street: null,
+      house: '',
+      entry: '',
+    });
+  }
+
+  addDestination(): void {
+    let destinations = this.profileForm.get('destinations') as FormArray;
+    destinations.push(this.createDestination());
+    this.streetsInCities.push([]);
+  }
+
+  deleteDestination(i: number): void {
+    let destinations = this.profileForm.get('destinations') as FormArray;
+    if (destinations.length > 1) {
+      destinations.removeAt(i);
+      this.streetsInCities[i] = [];
+    }
   }
 
   onSubmit() {
     // TODO: Use EventEmitter with form value
 
     console.log("Saving Delivery ...");
-    
-    this.iprintHUB.saveDelivery(this.profileForm.value)
+
+    let delivery = this.formToDelivery(this.profileForm.value);
+    this.iprintHUB.saveDelivery(delivery)
       .subscribe(
         (response) => {
           let deliveryNum = response["DeliveryNum"];
-          this.notifier.notify( 'success', `המשלוח ${deliveryNum} נשמר בהצלחה` );
+          this.notifier.notify('success', `המשלוח ${deliveryNum} נשמר בהצלחה`);
           console.log(`New Delivery with  deliveryNumber ${deliveryNum} inserted`);
-          this.sourceAddress = "";
+          this.sourceAddressStr = "";
           this.profileForm.reset({
-            contactManName: '',
-            CustomerID: '',
-            customerDeliveryNum: '',
-            PhoneDes: '',
-            companyNameLet: '',
-            streetOut: '',
-            streetNumOut: '',
-            DiraOut: '',
-            KomaOut:'',
-            cityOut: '',
-            companyNameGet: '',
-            streetDes: null,
-            streetNumDes: '',
-            KnisaDes: '',
-            DiraDes: '',
-            KomaDes: '',
-            cityDes: null,
-            vehicleTypeId: '',
-            comment2: ''
-
+            contact: '',
+            deliveryNum: '',
+            phone: '',
+            comments: '',
+            sourceId: null,
+            sourceAddress: null,
+            destinations: this.fb.array([this.createDestination()])
           });
         },
         (error) => {
-          this.notifier.notify( 'error', "ארע שגיעה בלתי צפויה! הנתונים לא נשמרו" );
+          this.notifier.notify('error', "ארע שגיעה בלתי צפויה! הנתונים לא נשמרו");
           console.log(error);
         }
       );
   }
-  onDeliverySourceChange (event: Event) {
-    console.log(event);
-    const selectedID = (<HTMLInputElement>event.target).value;
-    if (selectedID in this.deliverySource) {
 
-      let source = this.deliverySource[selectedID];
-      this.profileForm.get('companyNameLet').setValue(source.branch);
-      this.profileForm.get('streetOut').setValue(source.street);
-      this.profileForm.get('streetNumOut').setValue(source.houseNo);
-      this.profileForm.get('cityOut').setValue(source.city);
-      this.profileForm.get('vehicleTypeId').setValue(source.vehicleTypeId);
-      this.sourceAddress = `${source.branch}, ${source.street} ${source.houseNo}, ${source.city}`;
-          
+  formToDelivery(form): any {
+    let delivery = {
+      contactManName: form.contact,
+      customerDeliveryNum: form.deliveryNum,
+      PhoneDes: form.phone,
+      comment2: form.comments,
+      CustomerID: form.sourceId,
+      companyNameLet: form.sourceAddress.branch,
+      cityOut: form.sourceAddress.city,
+      streetNumOut: form.sourceAddress.houseNo,
+      streetOut: form.sourceAddress.street,
+      vehicleTypeId: form.sourceAddress.vehicleTypeId,
+      destinations: form.destinations.map(function (d) {
+        return {
+          companyNameGet: d.name,
+          cityDes: d.city,
+          streetDes: d.street,
+          streetNumDes: d.house,
+          KnisaDes: d.entry,
+        }
+      })
+    }
+    return delivery;
+  }
+
+  onSourceChange(event: Event) {
+    console.log(event);
+    const sourceId = (<HTMLInputElement>event.target).value;
+    if (sourceId in this.sourceAddresses) {
+
+      let address = this.sourceAddresses[sourceId];
+      this.profileForm.get('sourceAddress').setValue(address);
+      this.sourceAddressStr = `${address.branch}, ${address.street} ${address.houseNo}, ${address.city}`;
+
     } else {
-      this.profileForm.get('streetDes').setValue("");
-      this.sourceAddress = null;
+      this.sourceAddressStr = null;
     }
   }
 
-  onSelectCity() {
-    let city = this.profileForm.get('cityDes').value;
-    this.streetsInCity = this.streets[city];
-  }
-  onSelectStreet() {
-    let street = this.profileForm.get('streetDes').value;
+  onSelectCity(i) {
+    let dest = this.profileForm.get('destinations').value[i];
+    this.streetsInCities[i] = this.streets[dest.city];
   }
 
-  onCityFocus() {
-    this.selectCity.open();
+  onCityFocus(i) {
+    this.selectCity._results[i].open()
   }
-  onStreetFocus(){
-    this.selectStreet.open();
+  onStreetFocus(i) {
+    this.selectStreet._results[i].open()
   }
-  ngOnInit () {
-    this.deliveryCodes = deliveryCodes.default;
-    this.deliverySource = deliverySource.default;
+  ngOnInit() {
+    this.sourceNames = sourceNames.default;
+    this.sourceAddresses = sourceAddresses.default;
     this.streets = streets.default;
     this.cities = cities.default;
   }

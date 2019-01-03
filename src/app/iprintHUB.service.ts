@@ -6,9 +6,9 @@ import {environment} from "../environments/environment";
 
 export class iprintHUBService {
   constructor(private http: HttpClient) {}
-  saveDelivery(deliveryObj) {
+  saveDelivery(delivery) {
     return this.http.post(environment.iprintHUBUrl + "/baldar/newDelivery",
-      deliveryObj,
+      delivery,
       {
         headers: new HttpHeaders().set('Content-Type','application/json')
       })

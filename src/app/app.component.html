@@ -14,21 +14,21 @@
             <div class="col-sm-4 col-12">
                 <div class="form-group">
                     <label>שם המזמין <span class="req">*</span></label>
-                    <input type="text" class="form-control text-right" formControlName="contactManName" required tabindex="1">
+                    <input type="text" class="form-control text-right" formControlName="contact" required>
 
                 </div>
             </div>
             <div class="col-sm-4 col-12">
                 <div class="form-group">
                     <label>טלפון המזמין </label>
-                    <input type="text" class="form-control text-right" formControlName="PhoneDes" tabindex="1">
+                    <input type="text" class="form-control text-right" formControlName="phone">
 
                 </div>
             </div>
             <div class="col-sm-4 col-12">
                 <div class="form-group">
                     <label>מספר תעודה </label>
-                    <input type="text" class="form-control text-right" formControlName="customerDeliveryNum" tabindex="1">
+                    <input type="text" class="form-control text-right" formControlName="deliveryNum">
 
                 </div>
             </div>
@@ -37,10 +37,10 @@
                     <label>
                     מקור משלוח <span class="req">*</span>
                     </label>
-                    <select class="form-control" id="CustomerID" formControlName="CustomerID" (change)="onDeliverySourceChange($event)" tabindex="2">
-                     <option *ngFor="let deliveryCode of deliveryCodes" value={{deliveryCode.id}}>{{deliveryCode.name}}</option>
+                    <select class="form-control" id="sourceId" formControlName="sourceId" (change)="onSourceChange($event)">
+                     <option *ngFor="let sourceName of sourceNames" value={{sourceName.id}}>{{sourceName.name}}</option>
                    </select>
-                    <span class="source-address" *ngIf="sourceAddress"><span>כתובת מקור: </span> <span style="font-style: italic;">{{sourceAddress}}</span></span>
+                    <span class="source-address" *ngIf="sourceAddressStr"><span>כתובת מקור: </span> <span style="font-style: italic;">{{sourceAddressStr}}</span></span>
 
                 </div>
             </div>
@@ -48,49 +48,60 @@
         </div>
     </div>
 
-    <div i18n-dir dir="rtl" class="container mt-4">
-        <div class="card border-secondary">
+    <div i18n-dir dir="rtl" class="container mt-4" formArrayName="destinations" *ngFor="let destination of profileForm.get('destinations').controls; let i = index;">
+        <div class="card border-secondary" [formGroupName]="i">
             <div class="card-header">
-                <h4>כתובת יעד</h4>
+                <h4 style="display: inline;">כתובת יעד <span>{{i + 1}}</span></h4>
+                <i class="fa fa-minus-circle fa-3x text-primary" style="float: left; cursor: pointer;" (click)="deleteDestination(i)" *ngIf="this.profileForm.get('destinations').length > 1"></i>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-sm-6 col-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" formControlName="companyNameGet" placeholder="חברה *" tabindex="3">
+                            <input type="text" class="form-control" formControlName="name" placeholder="חברה *">
                         </div>
                     </div>
                     <div class="col-sm-6 col-12">
                         <div class="form-group">
-                            <ng-select #selectCity [items]="cities" formControlName="cityDes" (focus)="onCityFocus()" (change)="onSelectCity()" placeholder="עיר *" tabindex="4" class="custom"></ng-select>
+                            <ng-select #selectCity [items]="cities" formControlName="city" (focus)="onCityFocus(i)" (change)="onSelectCity(i)" placeholder="עיר *" class="custom"></ng-select>
                         </div>
                     </div>
                     <div class="col-sm-6 col-12">
                         <div class="form-group">
-                            <ng-select #selectStreet [items]="streetsInCity" formControlName="streetDes" (focus)="onStreetFocus()" (change)="onSelectStreet()" placeholder="רחוב *" tabindex="5" class="custom"></ng-select>
+                            <ng-select #selectStreet [items]="streetsInCities[i]" formControlName="street" (focus)="onStreetFocus(i)" placeholder="רחוב *" class="custom"></ng-select>
                         </div>
                     </div>
                     <div class="col-sm-3 col-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" formControlName="streetNumDes" placeholder="מספר בית" tabindex="6">
+                            <input type="text" class="form-control" formControlName="house" placeholder="מספר בית">
                         </div>
                     </div>
                     <div class="col-sm-3 col-12">
                         <div class="form-group">
-                            <input type="text" class="form-control" formControlName="KnisaDes" placeholder="כניסה" tabindex="7">
+                            <input type="text" class="form-control" formControlName="entry" placeholder="כניסה">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <div i18n-dir dir="rtl" class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <i class="fa fa-plus-circle fa-3x text-primary" style="cursor: pointer;" (click)="addDestination()"></i>
+            </div>
+        </div>
+    </div>
+
 
     <div i18n-dir dir="rtl" class="container mt-4">
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
                     <label>הערות </label>
-                    <textarea rows="4" class="form-control" formControlName="comment2" tabindex="9"></textarea>
+                    <textarea rows="4" class="form-control" formControlName="comments"></textarea>
                 </div>
             </div>
         </div>

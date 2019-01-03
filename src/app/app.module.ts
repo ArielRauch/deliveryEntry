@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { iprintHUBService } from './iprintHUB.service';
 import { NotifierModule } from 'angular-notifier';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { NotifierModule } from 'angular-notifier';
       behaviour:{
         autoHide: 5000
       }
-    })
+    }),
+    AngularFontAwesomeModule
   ],
   providers: [iprintHUBService],
   bootstrap: [AppComponent]
