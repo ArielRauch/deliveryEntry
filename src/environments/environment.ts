@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  iprintHUBUrl: "http://localhost:8080"
+  iprintHUBUrl: "http://localhost:8080",
+  contactsQueryUrl: "http://31.154.74.138:30080/ariel/dbquery"
 };
 
 /*

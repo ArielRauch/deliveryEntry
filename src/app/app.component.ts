@@ -1,9 +1,12 @@
-import { Component, OnInit, ViewChild, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild, QueryList, ViewChildren, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { iprintHUBService } from "./iprintHUB.service";
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { NotifierService } from 'angular-notifier';
+import { Observable, of } from 'rxjs';
+import {catchError, map, debounceTime, switchMap} from 'rxjs/operators';
+
 
 import * as sourceNames from "../data/sourceNames.json"
 import * as sourceAddresses from "../data/sourceAddresses.json"
@@ -27,6 +30,7 @@ export class AppComponent implements OnInit {
     destinations: this.fb.array([this.createDestination()])
   });
 
+  contactNames:any = [];
   sourceNames: any = null;
   sourceAddresses: any = null;
   streets: any = null;
@@ -37,13 +41,36 @@ export class AppComponent implements OnInit {
 
   readonly notifier: NotifierService;
 
+  contactTypeahead:EventEmitter<string> = new EventEmitter<string>();
+
+  @ViewChild('selectContact') selectContact;
   @ViewChildren('selectCity') selectCity;
   @ViewChildren('selectStreet') selectStreet;
 
-  constructor(private fb: FormBuilder, private iprintHUB: iprintHUBService, notifierService: NotifierService) {
+  constructor(private fb: FormBuilder, private iprintHUB: iprintHUBService, notifierService: NotifierService, private cd: ChangeDetectorRef) {
     this.profileForm.patchValue({ deliveryCode: 6469 });
     this.notifier = notifierService;
+    this.contactTypeahead
+    .pipe(
+        debounceTime(400),
+        switchMap(term => this.loadContacts(term))
+    )
+    .subscribe(contactNames => {
+        this.contactNames = contactNames;
+        this.cd.markForCheck();
+    }, (err) => {
+        console.log('error', err);
+        this.contactNames = [];
+        this.cd.markForCheck();
+    });
 
+  }
+
+  loadContacts(term:string):Observable<any[]>{
+    if(term.length > 2){
+      return this.iprintHUB.contactsByPrefix(term);
+    }
+    return of([]);
   }
 
   createDestination(): FormGroup {
