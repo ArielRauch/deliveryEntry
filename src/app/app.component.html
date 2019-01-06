@@ -15,7 +15,7 @@
                 <div class="form-group">
                     <label>שם המזמין <span class="req">*</span></label>
                     <!-- <input type="text" class="form-control text-right" formControlName="contact" required> -->
-                    <ng-select #selectContact [items]="contactNames" formControlName="contact" (focus)="onContactFocus" notFoundText="אין נתונים" typeToSearchText="החל הקלדת שם" placeholder="" [clearable]="false" class="custom" [typeahead]="contactTypeahead"></ng-select>
+                    <ng-select #selectContact [items]="contactNames" formControlName="contact" (focus)="onContactFocus" notFoundText="אין נתונים" typeToSearchText="החל הקלדת שם" placeholder="" class="custom" [selectOnTab]="true" clearOnBackspace="false" [typeahead]="contactTypeahead"></ng-select>
                 </div>
             </div>
             <div class="col-sm-4 col-12">

@@ -12,6 +12,10 @@
     margin-right: 10px;
 }
 
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+    padding-right: 10px;
+}
+
 .ng-select.custom .ng-select-container {
     border-radius: 0;
     border-color: #ccc;

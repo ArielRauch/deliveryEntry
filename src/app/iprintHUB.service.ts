@@ -20,7 +20,9 @@ export class iprintHUBService {
   contactsByPrefix(prefix):Observable<string[]> {
     return this.http.get<any>(`${environment.contactsQueryUrl}?firstPart=${prefix}`)
     .pipe(map((response: any) => {
-      return response.recordset.map(function(item){return item.CUSTDES}).slice(0,19);
+      let res = response.recordset.map(function(item){return item.CUSTDES}).slice(0,19);
+      res.push(prefix);
+      return res;
     }));
       
   }
