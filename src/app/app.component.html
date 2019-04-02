@@ -63,12 +63,12 @@
                     </div>
                     <div class="col-sm-6 col-12">
                         <div class="form-group">
-                            <ng-select #selectCity [items]="cities" formControlName="city" (focus)="onCityFocus(i)" (change)="onSelectCity(i)" placeholder="עיר *" class="custom"></ng-select>
+                            <ng-select #selectCity [items]="cities" formControlName="city" (focus)="onCityFocus(i)" (change)="onSelectCity(i)" [selectOnTab]="true" placeholder="עיר *" class="custom"></ng-select>
                         </div>
                     </div>
                     <div class="col-sm-6 col-12">
                         <div class="form-group">
-                            <ng-select #selectStreet [items]="streetsInCities[i]" formControlName="street" (focus)="onStreetFocus(i)" placeholder="רחוב *" class="custom"></ng-select>
+                            <ng-select #selectStreet [items]="streetsInCities[i]" formControlName="street" (focus)="onStreetFocus(i)" [selectOnTab]="true" placeholder="רחוב *" class="custom"></ng-select>
                         </div>
                     </div>
                     <div class="col-sm-3 col-12">
