@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
   streets: any = null;
   cities: any = null;
   sourceAddressStr: string = null;
+  ws: string = null;
 
   streetsInCities = [[]];
 
@@ -46,6 +47,7 @@ export class AppComponent implements OnInit {
   @ViewChild('selectContact') selectContact;
   @ViewChildren('selectCity') selectCity;
   @ViewChildren('selectStreet') selectStreet;
+
 
   constructor(private fb: FormBuilder, private iprintHUB: iprintHUBService, notifierService: NotifierService, private cd: ChangeDetectorRef) {
     this.profileForm.patchValue({ deliveryCode: 6469 });
@@ -145,7 +147,7 @@ export class AppComponent implements OnInit {
           cityDes: d.city,
           streetDes: d.street,
           streetNumDes: d.house,
-          KnisaDes: d.entry,
+          KnisaDes: d.entry || ""
         }
       })
     }
