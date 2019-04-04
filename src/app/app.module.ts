@@ -4,8 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
-
+import { RouterModule } from '@angular/router';
+import {APP_BASE_HREF} from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { iprintHUBService } from './iprintHUB.service';
@@ -32,9 +32,10 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
         autoHide: 5000
       }
     }),
+    RouterModule.forRoot([]),
     AngularFontAwesomeModule
   ],
-  providers: [iprintHUBService],
+  providers: [iprintHUBService,{provide: APP_BASE_HREF, useValue : '/' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
