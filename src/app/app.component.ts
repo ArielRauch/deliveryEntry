@@ -6,7 +6,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import { NotifierService } from 'angular-notifier';
 import { Observable, of } from 'rxjs';
 import {catchError, map, debounceTime, switchMap} from 'rxjs/operators';
-
+import { ActivatedRoute } from '@angular/router';
 
 import * as sourceNames from "../data/sourceNames.json"
 import * as sourceAddresses from "../data/sourceAddresses.json"
@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
   streets: any = null;
   cities: any = null;
   sourceAddressStr: string = null;
+  printloc : string = null;
 
   streetsInCities = [[]];
 
@@ -47,7 +48,7 @@ export class AppComponent implements OnInit {
   @ViewChildren('selectCity') selectCity;
   @ViewChildren('selectStreet') selectStreet;
 
-  constructor(private fb: FormBuilder, private iprintHUB: iprintHUBService, notifierService: NotifierService, private cd: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder, private iprintHUB: iprintHUBService, notifierService: NotifierService, private cd: ChangeDetectorRef, private route: ActivatedRoute) {
     this.profileForm.patchValue({ deliveryCode: 6469 });
     this.notifier = notifierService;
     this.contactTypeahead
@@ -182,5 +183,8 @@ export class AppComponent implements OnInit {
     this.sourceAddresses = sourceAddresses.default;
     this.streets = streets.default;
     this.cities = cities.default;
+    this.route.queryParamMap.subscribe((params) => {
+      this.printloc = params.get('printloc');
+    })
   }
 }

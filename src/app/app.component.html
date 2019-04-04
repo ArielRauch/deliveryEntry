@@ -15,7 +15,7 @@
                 <div class="form-group">
                     <label>שם המזמין <span class="req">*</span></label>
                     <!-- <input type="text" class="form-control text-right" formControlName="contact" required> -->
-                    <ng-select #selectContact [items]="contactNames" formControlName="contact" (focus)="onContactFocus" notFoundText="אין נתונים" typeToSearchText="החל הקלדת שם" placeholder="" class="custom" [selectOnTab]="true" clearOnBackspace="false" [typeahead]="contactTypeahead"></ng-select>
+                    <ng-select #selectContact [items]="contactNames" formControlName="contact" notFoundText="אין נתונים" typeToSearchText="החל הקלדת שם" placeholder="" class="custom" [selectOnTab]="true" clearOnBackspace="false" [typeahead]="contactTypeahead"></ng-select>
                 </div>
             </div>
             <div class="col-sm-4 col-12">
@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    <div i18n-dir dir="rtl" class="container mt-4" formArrayName="destinations" *ngFor="let destination of profileForm.get('destinations').controls; let i = index;">
+    <div i18n-dir dir="rtl" class="container mt-4" formArrayName="destinations" *ngFor="let destination of profileForm.get('destinations')['controls']; let i = index;">
         <div class="card border-secondary" [formGroupName]="i">
             <div class="card-header">
                 <h4 style="display: inline;">כתובת יעד <span>{{i + 1}}</span></h4>
