@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
 
   contactTypeahead:EventEmitter<string> = new EventEmitter<string>();
 
+
   @ViewChild('selectContact') selectContact;
   @ViewChildren('selectCity') selectCity;
   @ViewChildren('selectStreet') selectStreet;
@@ -94,7 +95,7 @@ export class AppComponent implements OnInit {
     let destinations = this.profileForm.get('destinations') as FormArray;
     if (destinations.length > 1) {
       destinations.removeAt(i);
-      this.streetsInCities[i] = [];
+      this.streetsInCities.splice(i,1);
     }
   }
 
@@ -177,6 +178,36 @@ export class AppComponent implements OnInit {
   }
   onStreetFocus(i) {
     this.selectStreet._results[i].open()
+  }
+
+  clearStreets(i){
+    let dest = this.profileForm.get('destinations').value[i];
+    dest.street = null;
+    this.streetsInCities[i] = this.streets[dest.city];
+  }
+
+  streetTypeaheadFactory(i):EventEmitter<string>{
+    let typeahead = new EventEmitter<string>();
+
+    typeahead
+    .pipe(
+      debounceTime(100),
+      switchMap(term => {
+        let dest = this.profileForm.get('destinations').value[i];
+        let streets = this.streets[dest.city].filter(city => city.startsWith(term));
+        if(streets.length == 0)
+          streets.push(term);
+        return of(streets);
+      })
+    ).subscribe( streets => {
+        this.streetsInCities[i] = streets;
+        this.cd.markForCheck();
+    }, (err) => {
+        console.log('error', err);
+        this.cd.markForCheck();
+    });
+
+    return typeahead;
   }
   ngOnInit() {
     this.sourceNames = sourceNames.default;
