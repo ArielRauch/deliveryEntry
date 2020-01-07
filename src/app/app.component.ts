@@ -125,8 +125,6 @@ export class AppComponent implements OnInit {
 
     let delivery = this.formToDelivery(this.profileForm.value);
     this.saveRecentDestinations();
-    debugger;
-    return;
     this.iprintHUB.saveDelivery(delivery)
       .subscribe(
         (response) => {

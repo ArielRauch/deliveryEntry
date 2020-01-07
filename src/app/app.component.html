@@ -53,8 +53,8 @@
   <div i18n-dir dir="rtl" class="container mt-4" >
     <div class="btn-group" >
       <ng-container *ngFor="let recent of recentDestinations; let i = index;">
-          <button style="margin:0 0 7px 7px;" type="button" class="btn btn-secondary btn-sm" (click)="addDestinationFromRecent(i)">{{recent.street}}
-              {{recent.house}}{{recent.entry ? '/' + recent.entry : ''}}, {{recent.city}}</button>
+          <button style="margin:0 0 7px 7px;" type="button" class="btn btn-secondary btn-sm" (click)="addDestinationFromRecent(i)">
+              <b>{{recent.name}}</b> {{recent.street}} {{recent.house}}{{recent.entry ? '/' + recent.entry : ''}}, {{recent.city}}</button>
       </ng-container>
        <button *ngIf="recentDestinations.length" style="margin:0 0 7px 7px;" type="button" class="btn btn-outline-dark btn-sm" (click)="clearRecentDestinations()">נקה</button>
     </div>
