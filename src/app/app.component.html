@@ -50,6 +50,15 @@
 
     </div>
   </div>
+  <div i18n-dir dir="rtl" class="container mt-4" >
+    <div class="btn-group" >
+      <ng-container *ngFor="let recent of recentDestinations; let i = index;">
+          <button style="margin:0 0 7px 7px;" type="button" class="btn btn-secondary btn-sm" (click)="addDestinationFromRecent(i)">{{recent.street}}
+              {{recent.house}}{{recent.entry ? '/' + recent.entry : ''}}, {{recent.city}}</button>
+      </ng-container>
+       <button *ngIf="recentDestinations.length" style="margin:0 0 7px 7px;" type="button" class="btn btn-outline-dark btn-sm" (click)="clearRecentDestinations()">נקה</button>
+    </div>
+  </div>
 
   <div i18n-dir dir="rtl" class="container mt-4" formArrayName="destinations"
     *ngFor="let destination of profileForm.get('destinations')['controls']; let i = index;">
@@ -93,12 +102,12 @@
           </div>
           <div class="col-sm-4 col-12">
 
-              <div class="form-group">
-                <ng-select #selectPackageAmount [items]="packageAmountOptions" formControlName="packageAmount"
-                  (focus)="onPackageAmountFocus(i)" [selectOnTab]="true" placeholder="מס' חבילות [1]" class="custom">
-                </ng-select>
-              </div>
+            <div class="form-group">
+              <ng-select #selectPackageAmount [items]="packageAmountOptions" formControlName="packageAmount"
+                (focus)="onPackageAmountFocus(i)" [selectOnTab]="true" placeholder="מס' חבילות [1]" class="custom">
+              </ng-select>
             </div>
+          </div>
 
         </div>
       </div>
