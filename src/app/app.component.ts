@@ -37,6 +37,7 @@ export class AppComponent implements OnInit {
   cities: any = null;
   sourceAddressStr: string = null;
   printloc : string = null;
+  packageAmountOptions=Array.from({ length: 20 }, (v, i) => i + 1)
 
   streetsInCities = [[]];
 
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit {
   @ViewChild('selectContact') selectContact;
   @ViewChildren('selectCity') selectCity;
   @ViewChildren('selectStreet') selectStreet;
+  @ViewChildren('selectPackageAmount') selectPackageAmount;
 
   constructor(private fb: FormBuilder, private iprintHUB: iprintHUBService, notifierService: NotifierService, private cd: ChangeDetectorRef, private route: ActivatedRoute) {
     this.profileForm.patchValue({ deliveryCode: 6469 });
@@ -82,6 +84,7 @@ export class AppComponent implements OnInit {
       street: null,
       house: '',
       entry: '',
+      packageAmount: null
     });
   }
 
@@ -148,6 +151,7 @@ export class AppComponent implements OnInit {
           streetDes: d.street,
           streetNumDes: d.house,
           KnisaDes: d.entry,
+          packageAmount:d.packageAmount || 1
         }
       })
     }
@@ -178,6 +182,9 @@ export class AppComponent implements OnInit {
   }
   onStreetFocus(i) {
     this.selectStreet._results[i].open()
+  }
+  onPackageAmountFocus(i) {
+    this.selectPackageAmount._results[i].open()
   }
 
   clearStreets(i){
