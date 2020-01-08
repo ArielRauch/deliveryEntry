@@ -13,6 +13,7 @@ import * as sourceAddresses from "../data/sourceAddresses.json"
 import * as streets from "../data/streets.json"
 import * as cities from "../data/cities.json"
 import { forEach } from '@angular/router/src/utils/collection';
+import { AngularFontAwesomeComponent } from 'angular-font-awesome';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class AppComponent implements OnInit {
   sourceAddressStr: string = null;
   printloc: string = null;
   packageAmountOptions = Array.from({ length: 20 }, (v, i) => i + 1)
-  recentDestinations: any = [];
+  recentDeliveries: any = [];
 
   streetsInCities = [[]];
 
@@ -96,18 +97,21 @@ export class AppComponent implements OnInit {
     this.streetsInCities.push([]);
   }
 
-  addDestinationFromRecent(i: number) {
+  addDeliveryFromRecent(i: number) {
+    let f = this.profileForm;
+    let delivery = this.recentDeliveries[i];
     let destinations = this.profileForm.get('destinations') as FormArray;
-
-    if (destinations.length == 1) {
-      let dest = destinations.value[0];
-      if (dest.name == '' && !dest.city && !dest.street) {
-        destinations.removeAt(0);
-        this.streetsInCities = [];
-      }
+    while(destinations.length){
+      destinations.removeAt(0);
     }
-    destinations.push(this.fb.group(this.recentDestinations[i]));
-    this.streetsInCities.push([]);
+    this.streetsInCities = [];
+    f.patchValue(delivery);
+    for(let i = 0; i < delivery.destinations.length; i++){
+        let dest = this.createDestination();
+        dest.patchValue(delivery.destinations[i]);
+        destinations.push(dest);
+        this.streetsInCities[i] = this.streets[delivery.destinations[i].city];
+    }
   }
 
   deleteDestination(i: number): void {
@@ -124,7 +128,8 @@ export class AppComponent implements OnInit {
     console.log("Saving Delivery ...");
 
     let delivery = this.formToDelivery(this.profileForm.value);
-    this.saveRecentDestinations();
+    this.saveRecentDelivery();
+
     this.iprintHUB.saveDelivery(delivery)
       .subscribe(
         (response) => {
@@ -242,27 +247,25 @@ export class AppComponent implements OnInit {
     this.route.queryParamMap.subscribe((params) => {
       this.printloc = params.get('printloc');
     });
-    this.recentDestinations = JSON.parse(localStorage.getItem('recentDestinations') || "[]") || [];
+    this.recentDeliveries = JSON.parse(localStorage.getItem('recentDeliveries') || "[]") || [];
   }
 
-  saveRecentDestinations() {
-    let destinations = this.profileForm.value.destinations;
-    destinations.forEach(dest => {
-      if (!this.recentDestinations.some(d => d.name == dest.name && d.city == dest.city && d.street == dest.street && d.house == dest.house && d.entry == dest.entry)) {
-        dest.packageAmount = null;
-        this.recentDestinations.slice(0, 6);
-        this.recentDestinations.push(dest);
-      }
-    });
-    localStorage.setItem('recentDestinations', JSON.stringify(this.recentDestinations));
-  }
-
-clearRecentDestinations(){
-    if(confirm("לנקות את רשימת הכובות האחרונות?")){
-    this.recentDestinations = [];
-    localStorage.setItem('recentDestinations', JSON.stringify(this.recentDestinations));
+  saveRecentDelivery() {
+    let f = this.profileForm.value;
+    if (!this.recentDeliveries.some(d => d.contact == f.contact && d.deliveryNum == f.deliveryNum && d.phone == f.phone && d.sourceId == f.sourceId && d.destinations.length == f.destinations.length && d.destinations[0].name == f.destinations[0].name)) {
+      this.recentDeliveries = this.recentDeliveries.slice(0, 9);
+      this.recentDeliveries.unshift(f);
     }
-}
+
+    localStorage.setItem('recentDeliveries', JSON.stringify(this.recentDeliveries));
+  }
+
+  clearRecentDeliveries() {
+    if (confirm("לנקות את רשימת משלוחים האחרונים?")) {
+      this.recentDeliveries = [];
+      localStorage.setItem('recentDeliveries', JSON.stringify(this.recentDeliveries));
+    }
+  }
 
 
 }

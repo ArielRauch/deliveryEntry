@@ -7,129 +7,136 @@
 
     </div>
   </nav>
-
   <div i18n-dir dir="rtl" class="container">
-    <h3>משלוחים</h3>
     <div class="row">
-      <div class="col-sm-4 col-12">
-        <div class="form-group">
-          <label>שם המזמין <span class="req">*</span></label>
-          <!-- <input type="text" class="form-control text-right" formControlName="contact" required> -->
-          <ng-select #selectContact [items]="contactNames" formControlName="contact" notFoundText="אין נתונים"
-            typeToSearchText="החל הקלדת שם" placeholder="" class="custom" [selectOnTab]="true" clearOnBackspace="false"
-            [typeahead]="contactTypeahead"></ng-select>
-        </div>
-      </div>
-      <div class="col-sm-4 col-12">
-        <div class="form-group">
-          <label>טלפון המזמין </label>
-          <input type="text" class="form-control text-right" formControlName="phone">
-
-        </div>
-      </div>
-      <div class="col-sm-4 col-12">
-        <div class="form-group">
-          <label>מספר תעודה </label>
-          <input type="text" class="form-control text-right" formControlName="deliveryNum">
-
-        </div>
-      </div>
-      <div class="col-12">
-        <div class="form-group">
-          <label>
-            מקור משלוח <span class="req">*</span>
-          </label>
-          <select class="form-control" id="sourceId" formControlName="sourceId" (change)="onSourceChange($event)">
-            <option *ngFor="let sourceName of sourceNames" value={{sourceName.id}}>{{sourceName.name}}</option>
-          </select>
-          <span class="source-address" *ngIf="sourceAddressStr"><span>כתובת מקור: </span> <span
-              style="font-style: italic;">{{sourceAddressStr}}</span></span>
-
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <div i18n-dir dir="rtl" class="container mt-4" >
-    <div class="btn-group" >
-      <ng-container *ngFor="let recent of recentDestinations; let i = index;">
-          <button style="margin:0 0 7px 7px;" type="button" class="btn btn-secondary btn-sm" (click)="addDestinationFromRecent(i)">
-              <b>{{recent.name}}</b> {{recent.street}} {{recent.house}}{{recent.entry ? '/' + recent.entry : ''}}, {{recent.city}}</button>
-      </ng-container>
-       <button *ngIf="recentDestinations.length" style="margin:0 0 7px 7px;" type="button" class="btn btn-outline-dark btn-sm" (click)="clearRecentDestinations()">נקה</button>
-    </div>
-  </div>
-
-  <div i18n-dir dir="rtl" class="container mt-4" formArrayName="destinations"
-    *ngFor="let destination of profileForm.get('destinations')['controls']; let i = index;">
-    <div class="card border-secondary" [formGroupName]="i">
-      <div class="card-header">
-        <h4 style="display: inline;">כתובת יעד <span>{{i + 1}}</span></h4>
-        <i class="fa fa-minus-circle fa-3x text-primary" style="float: left; cursor: pointer;"
-          (click)="deleteDestination(i)" *ngIf="this.profileForm.get('destinations').length > 1"></i>
-      </div>
-      <div class="card-body">
+      <div class="col">
+        <h3>משלוחים</h3>
         <div class="row">
           <div class="col-sm-4 col-12">
             <div class="form-group">
-              <input type="text" class="form-control" formControlName="name" placeholder="חברה *">
+              <label>שם המזמין <span class="req">*</span></label>
+              <!-- <input type="text" class="form-control text-right" formControlName="contact" required> -->
+              <ng-select #selectContact [items]="contactNames" formControlName="contact" notFoundText="אין נתונים"
+                typeToSearchText="החל הקלדת שם" placeholder="" class="custom" [selectOnTab]="true"
+                clearOnBackspace="false" [typeahead]="contactTypeahead"></ng-select>
             </div>
           </div>
           <div class="col-sm-4 col-12">
             <div class="form-group">
-              <ng-select #selectCity [items]="cities" formControlName="city" (focus)="onCityFocus(i)"
-                (change)="onSelectCity(i)" [selectOnTab]="true" placeholder="עיר *" class="custom"></ng-select>
-            </div>
-          </div>
+              <label>טלפון המזמין </label>
+              <input type="text" class="form-control text-right" formControlName="phone">
 
-          <div class="col-sm-4 col-12">
-            <div class="form-group">
-              <ng-select #selectStreet [items]="streetsInCities[i]" formControlName="street" (focus)="onStreetFocus(i)"
-                [selectOnTab]="true" placeholder="רחוב *" class="custom" [selectOnTab]="true" clearOnBackspace="false"
-                [typeahead]="streetTypeaheadFactory(i)" (clear)="clearStreets(i)"></ng-select>
             </div>
           </div>
+          <div class="col-sm-4 col-12">
+            <div class="form-group">
+              <label>מספר תעודה </label>
+              <input type="text" class="form-control text-right" formControlName="deliveryNum">
 
-          <div class="col-sm-4 col-12">
-            <div class="form-group">
-              <input type="text" class="form-control" formControlName="house" placeholder="מספר בית">
             </div>
           </div>
-          <div class="col-sm-4 col-12">
+          <div class="col-12">
             <div class="form-group">
-              <input type="text" class="form-control" formControlName="entry" placeholder="כניסה">
-            </div>
-          </div>
-          <div class="col-sm-4 col-12">
+              <label>
+                מקור משלוח <span class="req">*</span>
+              </label>
+              <select class="form-control" id="sourceId" formControlName="sourceId" (change)="onSourceChange($event)">
+                <option *ngFor="let sourceName of sourceNames" value={{sourceName.id}}>{{sourceName.name}}</option>
+              </select>
+              <span class="source-address" *ngIf="sourceAddressStr"><span>כתובת מקור: </span> <span
+                  style="font-style: italic;">{{sourceAddressStr}}</span></span>
 
-            <div class="form-group">
-              <ng-select #selectPackageAmount [items]="packageAmountOptions" formControlName="packageAmount"
-                (focus)="onPackageAmountFocus(i)" [selectOnTab]="true" placeholder="מס' חבילות [1]" class="custom">
-              </ng-select>
             </div>
           </div>
 
         </div>
       </div>
-    </div>
-  </div>
+      <div class="col col-sm-auto">
+        <h3>אחרונים <button [style.visibility]="recentDeliveries.length ? 'visible' : 'hidden'" type="button"
+            class="btn btn-outline-dark btn-sm" (click)="clearRecentDeliveries()">נקה</button></h3>
+        <div style="height: 150px; overflow-y: scroll; padding: 5px; margin-top: 10px;">
+          <ng-container *ngFor="let recent of recentDeliveries; let i = index;">
+            <button type="button" class="btn btn-secondary btn-sm btn-block"
+              (click)="addDeliveryFromRecent(i)"><b>{{recent.contact.substr(0,12)}}</b>
+              {{recent.destinations[0].name.substr(0,12)}} ({{recent.destinations.length}})</button>
 
-
-  <div i18n-dir dir="rtl" class="container mt-4">
-    <div class="row">
-      <div class="col-12">
-        <i class="fa fa-plus-circle fa-3x text-primary" style="cursor: pointer;" (click)="addDestination()"></i>
+          </ng-container>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div class="container mt-4" formArrayName="destinations"
+      *ngFor="let destination of profileForm.get('destinations')['controls']; let i = index;">
+      <div class="card border-secondary" [formGroupName]="i">
+        <div class="card-header">
+          <h4 style="display: inline;">כתובת יעד <span>{{i + 1}}</span></h4>
+          <i class="fa fa-minus-circle fa-3x text-primary" style="float: left; cursor: pointer;"
+            (click)="deleteDestination(i)" *ngIf="this.profileForm.get('destinations').length > 1"></i>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-4 col-12">
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="name" placeholder="חברה *">
+              </div>
+            </div>
+            <div class="col-sm-4 col-12">
+              <div class="form-group">
+                <ng-select #selectCity [items]="cities" formControlName="city" (focus)="onCityFocus(i)"
+                  (change)="onSelectCity(i)" [selectOnTab]="true" placeholder="עיר *" class="custom"></ng-select>
+              </div>
+            </div>
+
+            <div class="col-sm-4 col-12">
+              <div class="form-group">
+                <ng-select #selectStreet [items]="streetsInCities[i]" formControlName="street"
+                  (focus)="onStreetFocus(i)" [selectOnTab]="true" placeholder="רחוב *" class="custom"
+                  [selectOnTab]="true" clearOnBackspace="false" [typeahead]="streetTypeaheadFactory(i)"
+                  (clear)="clearStreets(i)"></ng-select>
+              </div>
+            </div>
+
+            <div class="col-sm-4 col-12">
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="house" placeholder="מספר בית">
+              </div>
+            </div>
+            <div class="col-sm-4 col-12">
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="entry" placeholder="כניסה">
+              </div>
+            </div>
+            <div class="col-sm-4 col-12">
+
+              <div class="form-group">
+                <ng-select #selectPackageAmount [items]="packageAmountOptions" formControlName="packageAmount"
+                  (focus)="onPackageAmountFocus(i)" [selectOnTab]="true" placeholder="מס' חבילות [1]" class="custom">
+                </ng-select>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
 
 
-  <div i18n-dir dir="rtl" class="container mt-4">
-    <div class="row">
-      <div class="col-12">
-        <div class="form-group">
-          <label>הערות </label>
-          <textarea rows="4" class="form-control" formControlName="comments"></textarea>
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-12">
+          <i class="fa fa-plus-circle fa-3x text-primary" style="cursor: pointer;" (click)="addDestination()"></i>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label>הערות </label>
+            <textarea rows="4" class="form-control" formControlName="comments"></textarea>
+          </div>
         </div>
       </div>
     </div>
