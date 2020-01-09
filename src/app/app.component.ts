@@ -130,7 +130,7 @@ export class AppComponent implements OnInit {
     let delivery = this.formToDelivery(this.profileForm.value);
     this.saveRecentDelivery();
 
-    this.iprintHUB.saveDelivery(delivery)
+    this.iprintHUB.saveDelivery(delivery, this.printloc)
       .subscribe(
         (response) => {
           let deliveryNum = response["DeliveryNum"];
